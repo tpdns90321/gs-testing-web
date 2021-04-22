@@ -9,6 +9,10 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public @ResponseBody String greeting() {
+		String unused = null;
+		if (unused.equals("unused")) {
+			return "World";
+		}
 		return "Hello, World";
 	}
 
