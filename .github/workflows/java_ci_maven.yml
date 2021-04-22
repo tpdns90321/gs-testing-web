@@ -20,3 +20,7 @@ jobs:
       run: mvn install -DskipTests
     - name: Compile
       run: mvn compile
+    - name: Scan with PMD
+      run: mvn pmd:check
+    - name: Scan with SpotBugs
+      run: mvn spotbugs:check
