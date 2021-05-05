@@ -20,6 +20,8 @@ jobs:
       run: mvn spotbugs:check
     - name: Scan with CheckStyle
       run: mvn checkstyle:check
+    - name: Unit Test
+      run: mvn test
   deploy:
     needs: build
     if: ${{ github.ref == 'refs/heads/master' }}
@@ -44,4 +46,4 @@ jobs:
       run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://gs-testing-web/$GITHUB_SHA.tar.gz
     - name: tag object
       run: |
-        aws s3 put-object-tagging --bucket gs-testing-web --key $GITHUB_SHA.tar.gz --tagging '{ "TagSet": [{ "Key": "Deploy", "Value": "True" }] }'
+        aws s3api put-object-tagging --bucket gs-testing-web --key $GITHUB_SHA.tar.gz --tagging '{ "TagSet": [{ "Key": "Deploy", "Value": "True" }] }'
