@@ -1,0 +1,15 @@
+#!/bin/sh
+
+JAR_NAME=$(ls /home/ubuntu/app/ | grep '.jar' | tail -n 1)
+PID=$(pgrep -f java)
+
+if [-z $PID]; then
+	echo "nothing to end"
+else
+	echo "kill $PID"
+	kill -15 $PID
+	sleep 5
+fi
+
+echo "server run"
+nohup java -jar /home/ubuntu/app/$JAR_NAME > /dev/null 2> /dev/null < /dev/null &

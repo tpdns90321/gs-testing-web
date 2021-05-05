@@ -30,5 +30,17 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Packaging
+    - name: Package
       run: mvn package -DskipTests
+    - name: Compress
+      run: tar -czf $GITHUB_SHA.tar.gz appspec.yml target/*.jar scripts/*
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-access-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: upload to AWS S3
+      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://$PROJECT_NAME/$GITHUB_SHA.tar.gz
+    - name: tag object
+      run: |
+        aws s3 put-object-tagging --bucket gs-testing-web --key $GITHUB_SHA.tar.gz --tagging '{ "TagSet": [{ "Key": "Deploy", "Value": "True" }] }'
