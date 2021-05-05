@@ -41,7 +41,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: 'ap-northeast-2'
     - name: upload to AWS S3
-      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://$PROJECT_NAME/$GITHUB_SHA.tar.gz
+      run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://gs-testing-web/$GITHUB_SHA.tar.gz
     - name: tag object
       run: |
         aws s3 put-object-tagging --bucket gs-testing-web --key $GITHUB_SHA.tar.gz --tagging '{ "TagSet": [{ "Key": "Deploy", "Value": "True" }] }'
