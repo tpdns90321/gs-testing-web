@@ -46,6 +46,6 @@ jobs:
       run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://gs-testing-web/$GITHUB_SHA.tar.gz
     - name: tag object
       run: |
-        aws s3api put-object-tagging --bucket gs-testing-web --key $GITHUB_SHA.tar.gz --tagging '{ "TagSet": [{ "Key": "Deploy", "Value": "True" }] }'
+        aws s3api put-object-tagging --bucket gs-testing-web --key $GITHUB_SHA.tar.gz --tagging '{ "TagSet": [{ "Key": "Deploy", "Value": "true" }] }'
     - name: execute CodeDeploy
       run: aws deploy create-deployment --application-name gs-testing-web --deployment-group-name ec2 --s3-location bucket=gs-testing-web,key=$GITHUB_SHA.tar.gz,bundleType=tgz
